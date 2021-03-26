@@ -257,6 +257,32 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* tim_baseHandle)
 } 
 
 /* USER CODE BEGIN 1 */
+void delay_100ns(volatile uint16_t val)
+{
+	htim4.Instance->CNT = 0;
+	while (htim4.Instance->CNT < val);
+}
+
+void delay_us(volatile uint16_t au16_us)
+{
+	htim4.Instance->CNT = 0;
+	while (htim4.Instance->CNT < au16_us);
+}
+
+void delay_ms(volatile uint16_t au16_ms)
+{
+	while(au16_ms > 0)
+	{
+		htim4.Instance->CNT = 0;
+		au16_ms--;
+		while (htim4.Instance->CNT < 1000);
+	}
+}
+
+uint32_t get_enc(void)
+{
+	return htim1.Instance->CNT;
+}
 
 /* USER CODE END 1 */
 

@@ -26,7 +26,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */     
-
+#include "keyboard.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -108,6 +108,8 @@ void MX_FREERTOS_Init(void) {
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
+  osThreadDef(KeyboardTask, keyboard_task, osPriorityNormal, 0, 128);
+  defaultTaskHandle = osThreadCreate(osThread(KeyboardTask), NULL);
   /* USER CODE END RTOS_THREADS */
 
 }

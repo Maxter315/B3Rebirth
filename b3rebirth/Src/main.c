@@ -113,6 +113,7 @@ int main(void)
   MX_TIM10_Init();
   /* USER CODE BEGIN 2 */
   printf("DEBUG rebirth\n\r");
+
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in freertos.c) */
