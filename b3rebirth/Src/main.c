@@ -62,7 +62,18 @@ void MX_FREERTOS_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+char uartdebugBuffer[256];
+int _write(int file, char *ptr, int len)
+{
+  while (huart1.gState != HAL_UART_STATE_READY) {
+    //Kill time waiting for previous transfers
+    HAL_Delay(10);
+  }
+  memcpy(uartdebugBuffer, ptr, len);
+  HAL_UART_Transmit_DMA(&huart1, (uint8_t *)uartdebugBuffer, len);
 
+  return len;
+}
 /* USER CODE END 0 */
 
 /**
@@ -99,8 +110,9 @@ int main(void)
   MX_RNG_Init();
   MX_TIM4_Init();
   MX_TIM1_Init();
+  MX_TIM10_Init();
   /* USER CODE BEGIN 2 */
-
+  printf("DEBUG rebirth\n\r");
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in freertos.c) */
