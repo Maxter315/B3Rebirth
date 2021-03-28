@@ -114,7 +114,7 @@ int main(void)
   MX_ADC1_Init();
   MX_TIM10_Init();
   /* USER CODE BEGIN 2 */
-  printf("DEBUG rebirth %f\n\r", 5.50);
+  printf("DEBUG rebirth\n\r");
   HAL_TIM_Base_Start(&htim4);
   HAL_TIM_Encoder_Start(&htim1, TIM_CHANNEL_1);
 

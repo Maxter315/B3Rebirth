@@ -74,6 +74,6 @@ void keyboard_task(void const * argument)
 		printf("ADC: %f        %d\r", resf, vrefCal);
 		fflush(stdout);
 
-		osDelay(100);
+		osDelay(200);
 	}
 }
