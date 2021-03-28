@@ -21,6 +21,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "cmsis_os.h"
+#include "adc.h"
 #include "dma.h"
 #include "i2s.h"
 #include "rng.h"
@@ -30,7 +31,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "stdio.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -110,9 +111,12 @@ int main(void)
   MX_RNG_Init();
   MX_TIM4_Init();
   MX_TIM1_Init();
+  MX_ADC1_Init();
   MX_TIM10_Init();
   /* USER CODE BEGIN 2 */
-  printf("DEBUG rebirth\n\r");
+  printf("DEBUG rebirth %f\n\r", 5.50);
+  HAL_TIM_Base_Start(&htim4);
+  HAL_TIM_Encoder_Start(&htim1, TIM_CHANNEL_1);
 
   /* USER CODE END 2 */
 
