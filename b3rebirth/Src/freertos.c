@@ -28,6 +28,7 @@
 /* USER CODE BEGIN Includes */     
 #include "keyboard.h"
 #include "display.h"
+#include "synthesizer.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -114,6 +115,9 @@ void MX_FREERTOS_Init(void) {
 
   osThreadDef(DisplayTask, display_task, osPriorityAboveNormal, 0, 512);
   defaultTaskHandle = osThreadCreate(osThread(DisplayTask), NULL);
+
+  osThreadDef(SynthTask, synth_task, osPriorityHigh, 0, 512);
+  defaultTaskHandle = osThreadCreate(osThread(SynthTask), NULL);
   /* USER CODE END RTOS_THREADS */
 
 }
@@ -131,7 +135,7 @@ void StartDefaultTask(void const * argument)
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+    osDelay(1000);
   }
   /* USER CODE END StartDefaultTask */
 }

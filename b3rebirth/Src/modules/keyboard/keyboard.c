@@ -61,6 +61,7 @@ void keyboard_task(void const * argument)
 		float adcf, resf;
 		g_kb_state = get_keyboard();
 
+		/*
 		//printf("kb: %.8x\r", (unsigned int)g_kb_state);
         HAL_ADC_Start(&hadc1); // запускаем преобразование сигнала АЦП
         HAL_ADC_PollForConversion(&hadc1, 100); // ожидаем окончания преобразования
@@ -73,7 +74,7 @@ void keyboard_task(void const * argument)
 
 		printf("ADC: %d        %d\r\n", (int)(resf*1000), vrefCal);
 		fflush(stdout);
-
-		osDelay(200);
+		*/
+		osDelay(20);
 	}
 }

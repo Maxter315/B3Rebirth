@@ -72,6 +72,7 @@ extern "C" void lcd_init(void)
 	printf("ID = [%.8x]  res[%d, %d]\n\r", (unsigned int)ID, 10, 20);
 	tft.begin(ID);
 	tft.fillScreen(MAGENTA);
+	tft.setRotation(3);
 }
 
 extern "C" void test_lcd(void)
@@ -101,6 +102,8 @@ extern "C" void test_lcd(void)
 
 void fill_template1(int x0, int y0, int w, int h);
 void draw_knob(void);
+int cnt = 0;
+extern int i2s_done;
 
 extern "C" void update_disp(void)
 {
@@ -109,13 +112,14 @@ extern "C" void update_disp(void)
 	tft.setCursor(0,0);
 	tft.println("Hello world");
 	tft.print("Pookes: ");
-	//tft.printdec(kb);
+	tft.printdec(i2s_done);
 	tft.print("\n");
 	tft.setTextColor(WHITE, BLACK);
 	tft.print("Kakes: ");
-	//tft.printdec(cnt);
+	tft.printdec(cnt);
 	tft.print("\n");
 	tft.print("\n");
+	cnt++;
 
 //	for(int i = 0; i<200; i++)
 //	{
@@ -218,7 +222,7 @@ extern "C" void disptask(void)
 	while(1)
 	{
 		update_disp();
-		osDelay(100);
+		osDelay(1000);
 	}
 }
 
