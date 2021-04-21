@@ -23,11 +23,11 @@ unsigned long testFillScreen()
 
   tft.fillScreen(BLACK);
 //
-  ttx = get_clock();
+  //ttx = get_clock();
   HAL_Delay(1000);
-  tt0 = get_clock();
+  //tt0 = get_clock();
   tft.fillScreen(RED);
-  tt1 = get_clock();
+  //tt1 = get_clock();
   printf("RED: %d [%d]\r\n", tt1-tt0, tt0 - ttx);
   HAL_Delay(1000);
   tft.fillScreen(GREEN);
@@ -53,14 +53,14 @@ void test_delay(void)
 {
 	unsigned int te;
 
-	set_clock(0);
+	//set_clock(0);
 	HAL_Delay(1000);
-	te = get_clock();
+	//te = get_clock();
 	printf("HAL1000 [%d]\t", te);
 
-	set_clock(0);
+	//set_clock(0);
 	delay_us(1000);
-	te = get_clock();
+	//te = get_clock();
 	printf("us1000 [%d]\t\n\r", te);
 
 }
@@ -97,8 +97,7 @@ extern "C" void test_lcd(void)
   HAL_Delay(10000);
 }
 
-extern int kb;
-extern int cnt;
+
 
 void fill_template1(int x0, int y0, int w, int h);
 void draw_knob(void);
@@ -110,11 +109,11 @@ extern "C" void update_disp(void)
 	tft.setCursor(0,0);
 	tft.println("Hello world");
 	tft.print("Pookes: ");
-	tft.printdec(kb);
+	//tft.printdec(kb);
 	tft.print("\n");
 	tft.setTextColor(WHITE, BLACK);
 	tft.print("Kakes: ");
-	tft.printdec(cnt);
+	//tft.printdec(cnt);
 	tft.print("\n");
 	tft.print("\n");
 

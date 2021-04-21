@@ -32,6 +32,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "stdio.h"
+#include "string.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -117,6 +118,8 @@ int main(void)
   printf("DEBUG rebirth\n\r");
   HAL_TIM_Base_Start(&htim4);
   HAL_TIM_Encoder_Start(&htim1, TIM_CHANNEL_1);
+  HAL_TIM_PWM_Start(&htim10, TIM_CHANNEL_1);
+
 
   /* USER CODE END 2 */
 

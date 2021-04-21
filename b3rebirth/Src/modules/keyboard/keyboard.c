@@ -71,7 +71,7 @@ void keyboard_task(void const * argument)
         vrefCal = *VREFINT_CAL_ADDR;
         resf = (3.3 * ((1510)/adcf));
 
-		printf("ADC: %f        %d\r", resf, vrefCal);
+		printf("ADC: %d        %d\r\n", (int)(resf*1000), vrefCal);
 		fflush(stdout);
 
 		osDelay(200);
