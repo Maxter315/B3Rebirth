@@ -44,3 +44,14 @@ PE6 | COL2
 PE7 | COL3
 PE8 | COL4
 
+
+### ToDo:
+- L1: ADC battery measurements
+- L1: keyboard
+- L1: PCM5102
+- Tasks structure
+- Display task
+- Utils (ADC) task
+- Simple synth task
+
+
