@@ -104,6 +104,7 @@ void fill_template1(int x0, int y0, int w, int h);
 void draw_knob(void);
 int cnt = 0;
 extern int i2s_done;
+extern int profile_synth;
 
 extern "C" void update_disp(void)
 {
@@ -111,8 +112,8 @@ extern "C" void update_disp(void)
 	//tft.fillRect(0, 0, 150, 50, BLACK);
 	tft.setCursor(0,0);
 	tft.println("Hello world");
-	tft.print("Pookes: ");
-	tft.printdec(i2s_done);
+	tft.print("synth ms: ");
+	tft.printdec(profile_synth);
 	tft.print("\n");
 	tft.setTextColor(WHITE, BLACK);
 	tft.print("Kakes: ");

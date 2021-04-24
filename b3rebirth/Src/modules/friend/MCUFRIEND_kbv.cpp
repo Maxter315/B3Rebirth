@@ -235,7 +235,7 @@ void MCUFRIEND_kbv::printdec(int var)
 	char tmp[16];
 	int len;
 
-	len = sprintf(tmp, "%9d", var);
+	len = sprintf(tmp, "%6d", var);
 
 	for(int i = 0; i < len; i++)
 	{
