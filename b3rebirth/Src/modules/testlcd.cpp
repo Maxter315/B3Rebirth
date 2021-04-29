@@ -15,6 +15,9 @@ MCUFRIEND_kbv tft;
 #include "tim.h"
 #include "cmsis_os.h"
 
+#include "synthesizer.h"
+#include "keyboard.h"
+
 extern "C" void update_disp(void);
 
 unsigned int tt0, tt1, ttx;
@@ -69,9 +72,9 @@ extern "C" void lcd_init(void)
 {
 	uint32_t ID = 0;
 	ID = tft.readID();
-	printf("ID = [%.8x]  res[%d, %d]\n\r", (unsigned int)ID, 10, 20);
+	//printf("ID = [%.8x]  res[%d, %d]\n\r", (unsigned int)ID, 10, 20);
 	tft.begin(ID);
-	tft.fillScreen(MAGENTA);
+	tft.fillScreen(BLACK);
 	tft.setRotation(3);
 }
 
@@ -108,19 +111,67 @@ extern int profile_synth;
 
 extern "C" void update_disp(void)
 {
+
+	char sel_str[] = " <\n";
+	char emp_str[] = "  \n";
+	char * str0;
+	char * str1;
+	char * str2;
+	char * str3;
+	char * str4;
+	char * str5;
+	char * str6;
+	char wave_str[16];
+
+	if(select_env == 0) str0 = sel_str; else str0 = emp_str;
+	if(select_env == 1) str1 = sel_str; else str1 = emp_str;
+	if(select_env == 2) str2 = sel_str; else str2 = emp_str;
+	if(select_env == 3) str3 = sel_str; else str3 = emp_str;
+	if(select_env == 4) str4 = sel_str; else str4 = emp_str;
+	if(select_env == 5) str5 = sel_str; else str5 = emp_str;
+	if(select_env == 6) str6 = sel_str; else str6 = emp_str;
+
+	switch(gen_wave)
+	{
+		case 0:
+			sprintf(wave_str, "sine  ");
+			break;
+		case 1:
+			sprintf(wave_str, "triag ");
+			break;
+		case 2:
+			sprintf(wave_str, "saw   ");
+			break;
+		case 3:
+			sprintf(wave_str, "square");
+			break;
+	}
 	//tft.fillScreen(BLACK);
 	//tft.fillRect(0, 0, 150, 50, BLACK);
-	tft.setCursor(0,0);
-	tft.println("Hello world");
-	tft.print("synth ms: ");
-	tft.printdec(profile_synth);
-	tft.print("\n");
 	tft.setTextColor(WHITE, BLACK);
-	tft.print("Kakes: ");
-	tft.printdec(cnt);
+
+	tft.setCursor(0,0);
+	tft.println("[Envelope parameters]");
+
+	tft.print(" Delay  "); tft.printdec(env_delay);   tft.print(str0);
+	tft.print(" Attack "); tft.printdec(env_attack);  tft.print(str1);
+	tft.print(" Hold   "); tft.printdec(env_hold);    tft.print(str2);
+	tft.print(" Decay  "); tft.printdec(env_decay);   tft.print(str3);
+	tft.print(" Sustain"); tft.printdec(env_sustain); tft.print(str4);
+	tft.print(" Release"); tft.printdec(env_release); tft.print(str5);
+
+	tft.print("\n");
+	tft.print(" Wave:  "); tft.print(wave_str); tft.print(str6);
+
 	tft.print("\n");
 	tft.print("\n");
-	cnt++;
+	tft.print("synth profile ms: ");
+	tft.printdec(profile_synth);
+
+	tft.print("\n");
+	//tft.print("enc: ");
+	//tft.printdec(g_kb_state);
+	//tft.printdec(g_enc_value);
 
 //	for(int i = 0; i<200; i++)
 //	{
@@ -219,11 +270,11 @@ extern "C" void disptask(void)
 	printf("Display Start\n\r");
 
 	lcd_init();
-
+	update_disp();
 	while(1)
 	{
 		update_disp();
-		osDelay(1000);
+		osDelay(20);
 	}
 }
 

@@ -176,30 +176,30 @@ void MCUFRIEND_kbv::reset(void)
 
     LL_GPIO_InitTypeDef GPIO_InitStruct = {0};
 
-        //enablePortClock(TFT_CNTRL);
+	//enablePortClock(TFT_CNTRL);
 
-        LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOC);
+	LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOC);
 
-        LL_GPIO_ResetOutputPin(GPIOC, TFT_RD|TFT_WR|TFT_RS|TFT_CS|TFT_RST);
+	LL_GPIO_ResetOutputPin(GPIOC, TFT_RD|TFT_WR|TFT_RS|TFT_CS|TFT_RST);
 
-        GPIO_InitStruct.Pin = TFT_RD|TFT_WR|TFT_RS|TFT_CS|TFT_RST;
-        GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
-        GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
-        GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-        GPIO_InitStruct.Pull = LL_GPIO_PULL_DOWN;
-        LL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+	GPIO_InitStruct.Pin = TFT_RD|TFT_WR|TFT_RS|TFT_CS|TFT_RST;
+	GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
+	GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_VERY_HIGH;
+	GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+	GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
+	LL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
 
-        LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA);
+	LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA);
 
-        LL_GPIO_ResetOutputPin(GPIOA, TFT_D0|TFT_D1|TFT_D2|TFT_D3|TFT_D4|TFT_D5|TFT_D6|TFT_D7);
+	LL_GPIO_ResetOutputPin(GPIOA, TFT_D0|TFT_D1|TFT_D2|TFT_D3|TFT_D4|TFT_D5|TFT_D6|TFT_D7);
 
-        GPIO_InitStruct.Pin = TFT_D0|TFT_D1|TFT_D2|TFT_D3|TFT_D4|TFT_D5|TFT_D6|TFT_D7;
-        GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
-        GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
-        GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-        GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
-        LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+	GPIO_InitStruct.Pin = TFT_D0|TFT_D1|TFT_D2|TFT_D3|TFT_D4|TFT_D5|TFT_D6|TFT_D7;
+	GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
+	GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_VERY_HIGH;
+	GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+	GPIO_InitStruct.Pull = LL_GPIO_PULL_DOWN;
+	LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
     CS_IDLE;
     RD_IDLE;
@@ -235,7 +235,7 @@ void MCUFRIEND_kbv::printdec(int var)
 	char tmp[16];
 	int len;
 
-	len = sprintf(tmp, "%6d", var);
+	len = sprintf(tmp, "%8d", var);
 
 	for(int i = 0; i < len; i++)
 	{

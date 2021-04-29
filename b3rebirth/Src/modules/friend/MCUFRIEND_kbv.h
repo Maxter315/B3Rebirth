@@ -98,12 +98,12 @@
 #endif
 
 #define NOP     __asm__("nop")
-#define NOP5    NOP; NOP
+#define NOP5    NOP; NOP; NOP; NOP; NOP
 
-#define write8(x)     { write_8(x); WR_ACTIVE; NOP5; WR_IDLE; NOP5;}
+#define write8(x)     { write_8(x); WR_ACTIVE; NOP5; NOP5; WR_IDLE; NOP5; NOP5;}
 #define write16(x)    { uint8_t h = (x)>>8, l = x; write8(h); write8(l); }
 
-#define READ_8(dst)   { RD_ACTIVE; delay_us(2); dst = read8(); RD_IDLE; delay_us(2);}
+#define READ_8(dst)   { RD_ACTIVE; delay_us(5); dst = read8(); RD_IDLE; delay_us(5);}
 #define READ_16(dst)  { uint8_t hi; READ_8(hi); READ_8(dst); dst |= (hi << 8); }
 
 #define WriteCmd(x)  { CD_COMMAND; write16(x); }

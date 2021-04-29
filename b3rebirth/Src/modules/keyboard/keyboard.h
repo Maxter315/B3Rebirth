@@ -12,5 +12,7 @@
 
 void keyboard_task(void const * argument);
 extern uint32_t g_kb_state;
+extern uint32_t g_enc_value;
+extern uint8_t select_env;
 
 #endif /* MODULES_KEYBOARD_KEYBOARD_H_ */

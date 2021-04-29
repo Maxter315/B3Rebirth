@@ -16,6 +16,7 @@
 #include "i2s.h"
 #include "stdint.h"
 
+#include "synthesizer.h"
 
 #define COSLEN       512
 #define BUFLEN       1024
@@ -80,25 +81,13 @@ void generator_init(void)
 }
 
 
-#define ENV_DELAY_MIN    (0)
-#define ENV_DELAY_MAX    (2000)
-#define ENV_ATTACK_MIN   (50)
-#define ENV_ATTACK_MAX   (2000)
-#define ENV_HOLD_MIN     (0)
-#define ENV_HOLD_MAX     (1000)
-#define ENV_DECAY_MIN    (50)
-#define ENV_DECAY_MAX    (2000)
-#define ENV_SUSTAIN_MIN  (0)
-#define ENV_SUSTAIN_MAX  (256)
-#define ENV_RELEASE_MIN  (0)
-#define ENV_RELEASE_MAX  (5000)
-
 uint16_t env_delay   = ENV_DELAY_MIN + 10;
 uint16_t env_attack  = ENV_ATTACK_MIN + 80;
 uint16_t env_hold    = ENV_HOLD_MIN + 60;
 uint16_t env_decay   = ENV_DECAY_MIN + 100;
 uint16_t env_sustain = 170;
 uint16_t env_release = ENV_RELEASE_MIN + 300;
+uint16_t gen_wave = 0;
 
 uint16_t envelope_gen(int8_t idx)
 {
@@ -134,7 +123,7 @@ uint16_t envelope_gen(int8_t idx)
 	int16_t x_rel = x_dec - env_decay;
 	if(x_rel < env_release)
 	{
-		if(_gen[idx].key_pressed)
+		if(_gen[idx].key_pressed && _gen[idx].envelope_x == (env_delay + env_attack + env_hold + env_decay))
 		{
 			_gen[idx].envelope_x = env_delay + env_attack + env_hold + env_decay;
 			return env_sustain;
@@ -241,6 +230,60 @@ void oscillator(void)
 	}
 }
 
+uint16_t prev_gen_wave = 0;
+void update_table(void)
+{
+	if(prev_gen_wave != gen_wave)
+	{
+		switch(gen_wave)
+		{
+			case 0:
+			{
+				for(int i = 0; i < 512; i++)
+				{
+					costable[i] = (int16_t)(AMP * cos(2 * 3.1415 * ((float)i) / 512.0) + 0*AMP);
+				}
+				break;
+			}
+
+			case 1:
+			{
+				for(int i = 0; i < 256; i++)
+				{
+					costable[i] = (int16_t)(AMP * ((i / 256.0) - 0.5));
+				}
+				for(int i = 256; i < 512; i++)
+				{
+					costable[i] = (int16_t)(AMP * (( -(i-256) / 256.0) + 0.5));
+				}
+				break;
+			}
+
+			case 2:
+				for(int i = 0; i < 512; i++)
+				{
+					costable[i] = (int16_t)(AMP * ((i / 512.0) - 0.5));
+				}
+				break;
+
+			case 3:
+				for(int i = 0; i < 512; i++)
+				{
+					if(i < 256)
+						costable[i] = (int16_t)(AMP);
+					if(i >= 256)
+						costable[i] = (int16_t)(-AMP);
+				}
+				break;
+
+			default:
+				break;
+		}
+	}
+
+	prev_gen_wave = gen_wave;
+}
+
 void generator_osc(void)
 {
 	uint16_t env_value = 0;
@@ -292,6 +335,7 @@ void synth_task(void const * argument)
 		{
 			val = xTaskGetTickCount();
 			keys_to_notes(g_kb_state);
+			update_table();
 			generator_osc();
 			profile_synth = xTaskGetTickCount() - val;
 		}
